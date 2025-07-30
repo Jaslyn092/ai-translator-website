@@ -171,6 +171,49 @@ async function translateText() {
     }
 }
 
+// Gemini API调用
+async function callGemini(text, sourceLang, targetLang) {
+    const apiKey = getAPIKey('gemini');
+    if (!apiKey) {
+        throw new Error('请配置Gemini API密钥');
+    }
+
+    const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `你是一个专业的技术翻译助手，专门翻译云计算、人工智能、数据库、网络技术等专业术语。请将以下文本从${getLanguageName(sourceLang)}翻译成${getLanguageName(targetLang)}，保持专业性和准确性：\n\n${text}`
+                    }]
+                }]
+            })
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(`Gemini API错误: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text.trim();
+}
+
+// 在simulateAITranslation中加入Gemini分支
+async function simulateAITranslation(text, sourceLang, targetLang) {
+    const aiModel = document.getElementById('aiModel')?.value || 'gpt';
+    switch (aiModel) {
+        case 'gemini':
+            return await callGemini(text, sourceLang, targetLang);
+        // 其他模型...
+    }
+    // ...其他分支...
+}
+
 // 模拟AI翻译（实际项目中替换为真实的API调用）
 async function simulateAITranslation(text, sourceLang, targetLang) {
     // 模拟网络延迟
@@ -371,6 +414,31 @@ function getLanguageCode(language) {
     return codes[language] || 'en-US';
 }
 
+// 获取API密钥
+function getAPIKey(service) {
+    const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
+    return apiKeys[service];
+}
+
+// 设置API密钥（在设置面板保存）
+function setAPIKey(service, key) {
+    const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
+    apiKeys[service] = key;
+    localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+}
+
+// 获取语言名称
+function getLanguageName(code) {
+    const languages = {
+        'en': '英语',
+        'zh': '中文',
+        'ja': '日语',
+        'ko': '韩语',
+        'auto': '自动检测'
+    };
+    return languages[code] || code;
+}
+
 // 保存到历史记录
 function saveToHistory(original, translated, sourceLang, targetLang) {
     const historyItem = {
@@ -541,4 +609,4 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style); 
+document.head.appendChild(style);
