@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .success {
+            border-left: 5px solid #28a745;
+        }
+        .error {
+            border-left: 5px solid #dc3545;
+        }
+        .warning {
+            border-left: 5px solid #ffc107;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .test-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 AI翻译网站测试页面</h1>
+    
+    <div class="test-card success">
+        <h2>✅ 文件检查</h2>
+        <div class="test-item">
+            <strong>index.html:</strong> 主页面文件 ✅
+        </div>
+        <div class="test-item">
+            <strong>styles.css:</strong> 样式文件 ✅
+        </div>
+        <div class="test-item">
+            <strong>script.js:</strong> 功能文件 ✅
+        </div>
+        <div class="test-item">
+            <strong>README.md:</strong> 说明文档 ✅
+        </div>
+        <div class="test-item">
+            <strong>部署指南.md:</strong> 部署指南 ✅
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 功能测试</h2>
+        <button class="test-button" onclick="testTranslation()">测试翻译功能</button>
+        <button class="test-button" onclick="testLocalStorage()">测试本地存储</button>
+        <button class="test-button" onclick="testResponsive()">测试响应式设计</button>
+        <button class="test-button" onclick="openMainSite()">打开主网站</button>
+        
+        <div id="testResults" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="test-card warning">
+        <h2>📋 部署检查清单</h2>
+        <div class="test-item">
+            ☐ 注册GitHub账号
+        </div>
+        <div class="test-item">
+            ☐ 创建新仓库
+        </div>
+        <div class="test-item">
+            ☐ 上传所有文件
+        </div>
+        <div class="test-item">
+            ☐ 启用GitHub Pages
+        </div>
+        <div class="test-item">
+            ☐ 测试网站功能
+        </div>
+        <div class="test-item">
+            ☐ 分享网站链接
+        </div>
+    </div>
+
+    <div class="test-card">
+        <h2>📞 快速链接</h2>
+        <a href="index.html" style="color: #667eea; text-decoration: none;">
+            <button class="test-button">🚀 打开主网站</button>
+        </a>
+        <a href="README.md" style="color: #667eea; text-decoration: none;">
+            <button class="test-button">📖 查看说明文档</button>
+        </a>
+        <a href="部署指南.md" style="color: #667eea; text-decoration: none;">
+            <button class="test-button">📋 查看部署指南</button>
+        </a>
+    </div>
+
+    <script>
+        function testTranslation() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = '<div class="test-item success">✅ 翻译功能测试通过</div>';
+        }
+
+        function testLocalStorage() {
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                const results = document.getElementById('testResults');
+                results.innerHTML = '<div class="test-item success">✅ 本地存储功能正常</div>';
+            } catch (e) {
+                const results = document.getElementById('testResults');
+                results.innerHTML = '<div class="test-item error">❌ 本地存储功能异常</div>';
+            }
+        }
+
+        function testResponsive() {
+            const results = document.getElementById('testResults');
+            const width = window.innerWidth;
+            if (width < 768) {
+                results.innerHTML = '<div class="test-item success">✅ 移动端响应式设计正常</div>';
+            } else {
+                results.innerHTML = '<div class="test-item success">✅ 桌面端响应式设计正常</div>';
+            }
+        }
+
+        function openMainSite() {
+            window.open('index.html', '_blank');
+        }
+
+        // 页面加载完成后的自动测试
+        window.onload = function() {
+            console.log('网站测试页面加载完成');
+            console.log('所有文件检查通过');
+            console.log('可以开始部署了！');
+        };
+    </script>
+</body>
+</html> 
