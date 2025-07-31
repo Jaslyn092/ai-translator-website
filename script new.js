@@ -246,8 +246,8 @@ async function callClaude(text, sourceLang, targetLang) {
 }
 
 // 获取API密钥
-function getAPIKey(service) {AIzaSyA1vzFbCiTfvfoWVohj7HJt-WH3qqp_zdI
-    // 从本地存储获取API密钥
+function getAPIKey(service) {
+    if (service === 'gemini') return 'AIzaSyDVWqEzPhp-tY-KDtE30f6mgDaziY-HLl4';
     const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
     return apiKeys[service];
 }
@@ -642,87 +642,6 @@ function toggleSettings() {
 }
 
 ->
-
-// 切换设置面板
-function toggleSettings() {
-    const settingsPanel = document.getElementById('settingsPanel');
-    settingsPanel.classList.toggle('hidden');
-    
-    if (!settingsPanel.classList.contains('hidden')) {
-        loadAPIKeys();
-        updateAPIStatus();
-    }
-}
-
-// 保存API密钥
-function saveAPIKey(service) {
-    const keyInput = document.getElementById(`${service}Key`);
-    const key = keyInput.value.trim();
-    
-    if (!key) {
-        showNotification('请输入API密钥', 'warning');
-        return;
-    }
-    
-    setAPIKey(service, key);
-    showNotification(`${service.toUpperCase()} API密钥已保存`, 'success');
-    updateAPIStatus();
-}
-
-// 加载API密钥到输入框
-function loadAPIKeys() {
-    const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
-    
-    if (apiKeys.openai) {
-        document.getElementById('openaiKey').value = apiKeys.openai;
-    }
-    if (apiKeys.gemini) {
-        document.getElementById('geminiKey').value = apiKeys.gemini;
-    }
-    if (apiKeys.claude) {
-        document.getElementById('claudeKey').value = apiKeys.claude;
-    }
-}
-
-// 更新API状态显示
-function updateAPIStatus() {
-    const apiStatus = document.getElementById('apiStatus');
-    const currentApiStatus = document.getElementById('currentApiStatus');
-    const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '{}');
-    const currentModel = document.getElementById('aiModel')?.value || 'gpt';
-    
-    if (apiKeys[currentModel]) {
-        const statusText = `${currentModel.toUpperCase()} API已配置`;
-        if (apiStatus) {
-            apiStatus.textContent = statusText;
-            apiStatus.className = 'configured';
-        }
-        if (currentApiStatus) {
-            currentApiStatus.textContent = statusText;
-            currentApiStatus.parentElement.className = 'api-status-display configured';
-        }
-    } else {
-        const statusText = `${currentModel.toUpperCase()} API未配置`;
-        if (apiStatus) {
-            apiStatus.textContent = statusText;
-            apiStatus.className = 'not-configured';
-        }
-        if (currentApiStatus) {
-            currentApiStatus.textContent = statusText;
-            currentApiStatus.parentElement.className = 'api-status-display not-configured';
-        }
-    }
-}
-
-// 快速配置功能
-function showQuickConfig() {
-    const apiKey = prompt('请输入Gemini API密钥（以AIza开头）：');
-    if (apiKey && apiKey.trim()) {
-        setAPIKey('gemini', apiKey.trim());
-        showNotification('Gemini API密钥已保存', 'success');
-        updateAPIStatus();
-    }
-}
 
 // 添加事件监听器
 function addEventListeners() {
